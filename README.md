@@ -46,16 +46,18 @@ Each prediction includes **auxiliary estimates** and **uncertainty scores**.
 - **158** ground stations (daily aggregates: e.g., min/max temp, etc.)
 - **148** Swiss districts (graph nodes are district centroids)
 
-**Station–district links by radius (km)**
+**Station–district links by radius**
+--------------------------------
 
-| Radius (km) | # Links | % of max | Bar                                                  |
-|------------:|--------:|---------:|:-----------------------------------------------------|
-|           5 |      45 |    0.45% | #                                                    |
-|          20 |     641 |    6.35% | ###                                                  |
-|          50 |   3,341 |   33.11% | #################                                    |
-|         100 |  10,090 |  100.00% | ##################################################   |
+| Radius (km) |   # Links | % of E_max | Bar |
+|------------:|----------:|------------:|:----|
+|           5 |        45 |       0.41% | #   |
+|          20 |       641 |       5.89% | ### |
+|          50 |     3,341 |      30.71% | ############### |
+|         100 |    10,090 |      92.76% | ############################################## |
 
-_(bar width = 50)_
+
+Max possible undirected edges (n=148) = **10,878**  (bar width = 50)
 
 | ![≤ 5 km](figures/stations_to_district_centroids_5km.png) | ![≤ 20 km](figures/stations_to_district_centroids_20km.png) |
 |:----------------------------------------------------------:|:------------------------------------------------------------:|
@@ -77,3 +79,4 @@ _(bar width = 50)_
 ## External data citations
 
 - GeoJsons of Switzerland: [[mikpan]](https://github.com/mikpan/ch-maps/tree/master)
+- Locations of stations are deduced by querying [[SwissTopo]](https://www.swisstopo.admin.ch/en)
