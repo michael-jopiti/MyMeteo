@@ -48,33 +48,21 @@ Each prediction includes **auxiliary estimates** and **uncertainty scores**.
 
 **Station–district links by radius (km)**
 
-| Radius (km) | # Links |
-|---:|---:|
-| 5  | 45 |
-| 20 | 641 |
-| 50 | 3,341 |
-| 100| 10,090 |
+| Radius (km) | # Links | % of max | Bar                                                  |
+|------------:|--------:|---------:|:-----------------------------------------------------|
+|           5 |      45 |    0.45% | #                                                    |
+|          20 |     641 |    6.35% | ###                                                  |
+|          50 |   3,341 |   33.11% | #################                                    |
+|         100 |  10,090 |  100.00% | ##################################################   |
 
-<p align="center">
-  <figure style="display:inline-block; margin:4px;">
-    <img src="figures/stations_to_district_centroids_5km.png" width="45%"/>
-    <figcaption align="center">≤ 5 km</figcaption>
-  </figure>
-  <figure style="display:inline-block; margin:4px;">
-    <img src="figures/stations_to_district_centroids_20km.png" width="45%"/>
-    <figcaption align="center">≤ 20 km</figcaption>
-  </figure>
-</p>
-<p align="center">
-  <figure style="display:inline-block; margin:4px;">
-    <img src="figures/stations_to_district_centroids_50km.png" width="45%"/>
-    <figcaption align="center">≤ 50 km</figcaption>
-  </figure>
-  <figure style="display:inline-block; margin:4px;">
-    <img src="figures/stations_to_district_centroids_100km.png" width="45%"/>
-    <figcaption align="center">≤ 100 km</figcaption>
-  </figure>
-</p>
+_(bar width = 50)_
+
+| ![≤ 5 km](figures/stations_to_district_centroids_5km.png) | ![≤ 20 km](figures/stations_to_district_centroids_20km.png) |
+|:----------------------------------------------------------:|:------------------------------------------------------------:|
+| ≤ 5 km                                                     | ≤ 20 km                                                      |
+| ![≤ 50 km](figures/stations_to_district_centroids_50km.png)| ![≤ 100 km](figures/stations_to_district_centroids_100km.png)|
+| ≤ 50 km                                                    | ≤ 100 km                                                     |
+
 
 ---
 
