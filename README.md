@@ -3,65 +3,81 @@
 ![MyMeteo](figures/MyMeteo.png)
 
 [MeteoSwiss](https://www.meteoswiss.admin.ch/about-us/) is gradually releasing its data in an **OpenData**, machine-readable format.  
-Inspired by the complexity of the field, the impressive precision achieved by [MeteoSwiss](https://www.meteoswiss.admin.ch/about-us/), and as a Machine Learning enthusiast, I decided to take on the challenge of modeling meteorological data to build my own personal climate predictor.
+Inspired by the complexity of the field and the precision achieved by MeteoSwiss, this repo is an end-to-end attempt to model meteorological data and build a personal climate predictor.
 
 ---
 
-> ⚠️ **Disclaimer:** This project is **just my personal exercise in Machine Learning and coding**.  
-> Any other use, interpretation, or outcome is entirely outside my concern and responsibility.
+> ⚠️ **Disclaimer:** This project is a **personal exercise** in ML and coding.  
+> Any other use or interpretation is outside my responsibility.
 
 ---
 
 ## Idea
-I have absolutely no idea how MeteoSwiss tackles the problem.  
-I also know I don’t have access to all the data they may use, nor the computational power to train such advanced models.  
-Everything in this repo is **built from scratch, out of my head**. If I ever integrate external methods or datasets, I’ll explicitly document it.
+I don’t know how MeteoSwiss tackles the problem and I don’t have their full data or compute.  
+Everything here is **built from scratch**. If external methods/datasets are added, they’ll be documented explicitly.
 
 ## Graph Representation
 ![Graph representation of Switzerland at district level](figures/swiss_districts_graph.png)
-A key feature of this project is the **graph-based relationship among meteorological stations** based on their spatial coordinates.  
 
-The approach is to:  
-- Build a graph representation of Swiss localities.  
-- Bind them to a separate graph of meteorological stations.  
-- Let the model learn local relationships (geological, cantonal, communal, and city-wise) and connect them to meteo stations.
+A key feature is a **graph of Swiss districts** and a **graph of meteorological stations**.  
+The workflow:
+- Build an adjacency graph of Swiss administrative areas (district level for now).
+- Bind district centroids to nearby meteo stations using great-circle distances.
+- Let the model learn spatial dependencies and propagate meteo signals over the graph.
 
 ---
 
 ## Predictions
-For the moment, the target is to produce predictions at three different ranges:  
-- **Next hour**  
-- **Current day** (from 8:00 am to 7:59 am the next day)  
+Current targets:
+- **Next hour**
+- **Current day** (08:00 → 07:59 next day)
 - **Next 5 days**
 
-The model aims to estimate the following parameters: 
-- Temperature  
-- Humidity  
-- Sunlight duration  
+Variables:
+- Temperature
+- Humidity
+- Sunlight duration
 
-Each prediction will also include **secondary estimates** and **probability scores** for each parameter.
+Each prediction includes **auxiliary estimates** and **uncertainty scores**.
 
 ---
+
 ## Results
-158 ground stations give measurements over daily changes (min/max temp, ...).
-148 are the districts in switzerland, for which a centroid is calculated and represents geographical representation as graph nodes.
+- **158** ground stations (daily aggregates: e.g., min/max temp, etc.)
+- **148** Swiss districts (graph nodes are district centroids)
 
-Under a radius of 5Km, there are 45 connections to centroids
-Under a radius of 20Km, there are 641 connections to centroids
-Under a radius of 50Km, there are 3341 connections to centroids
-Under a radius of 100Km, there are 10090 connections to centroids
+**Station–district links by radius (km)**
+
+| Radius (km) | # Links |
+|---:|---:|
+| 5  | 45 |
+| 20 | 641 |
+| 50 | 3,341 |
+| 100| 10,090 |
 
 <p align="center">
-  <img src="figures/stations_to_district_centroids_5km.png" width="45%"/>
-  <img src="figures/stations_to_district_centroids_20km.png" width="45%"/>
+  <figure style="display:inline-block; margin:4px;">
+    <img src="figures/stations_to_district_centroids_5km.png" width="45%"/>
+    <figcaption align="center">≤ 5 km</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin:4px;">
+    <img src="figures/stations_to_district_centroids_20km.png" width="45%"/>
+    <figcaption align="center">≤ 20 km</figcaption>
+  </figure>
 </p>
 <p align="center">
-  <img src="figures/stations_to_district_centroids_50km.png" width="45%"/>
-  <img src="figures/stations_to_district_centroids_100km.png" width="45%"/>
+  <figure style="display:inline-block; margin:4px;">
+    <img src="figures/stations_to_district_centroids_50km.png" width="45%"/>
+    <figcaption align="center">≤ 50 km</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin:4px;">
+    <img src="figures/stations_to_district_centroids_100km.png" width="45%"/>
+    <figcaption align="center">≤ 100 km</figcaption>
+  </figure>
 </p>
-
 
 ---
+
 ## Versions
 - [ ] v.0.0.0: District level predictions of next hour weather conditions
 - [ ] v.0.1.0: District and cantonal prediction of next hour and next day
