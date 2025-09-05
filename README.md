@@ -39,3 +39,16 @@ The model aims to estimate the following parameters:
 - Sunlight duration  
 
 Each prediction will also include **secondary estimates** and **probability scores** for each parameter.
+
+---
+## Versions
+- [ ] v.0.0.0: District level predictions of next hour weather conditions
+- [ ] v.0.1.0: District and cantonal prediction of next hour and next day
+- [ ] v.0.1.0: District, cantonal prediction of next hour, next day, next 5 days
+- [ ] v.1.0.0: Municipal, district, cantonal and PLZ prediction of next hour, day and 5 days
+
+---
+
+## External data citations
+
+- GeoJsons of Switzerland: [[mikpan]](https://github.com/mikpan/ch-maps/tree/master)
