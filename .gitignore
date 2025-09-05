@@ -208,4 +208,7 @@ __marimo__/
 
 
 # My directories
-src/data/
+data/
+*.csv
+*.png
+*.json

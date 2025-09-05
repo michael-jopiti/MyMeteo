@@ -42,6 +42,7 @@ STAC_BASE = "https://data.geo.admin.ch/api/stac/v1"
 COLLECTION_ID = "ch.meteoschweiz.ogd-smn"
 USER_AGENT = "meteoswiss-hourly-downloader/1.1 (academic use)"
 
+
 # ---- Helpers ----------------------------------------------------------------
 
 def this_and_last_year(reference_utc: Optional[dt.datetime] = None) -> Tuple[int, int]:
@@ -138,7 +139,7 @@ def parse_meteoswiss_csv_to_df(content_bytes: bytes) -> pd.DataFrame:
 def filter_df_to_year(df: pd.DataFrame, year: int) -> pd.DataFrame:
     return df[df["time_utc"].dt.year == year].copy()
 
-def download_bytes(url: str, *, max_tries: int = 3) -> bytes:
+def download_bytes(url: str, *, max_tries: int = 3):
     headers = {"User-Agent": USER_AGENT}
     last_exc = None
     for _ in range(max_tries):
@@ -206,7 +207,7 @@ def process_station_item(
         if href.endswith(".parquet") and parquet_supported():
             import pandas as pd  # ensure namespace
             import io as _io
-            df = pd.read_parquet(_io.BytesIO(content))
+            df = pd.read_parquet(_io.BytesIO(content)) # pyright: ignore[reportArgumentType]
             # standardize timestamp column name if present
             if "time_utc" not in df.columns:
                 # try infer common time columns
@@ -217,7 +218,7 @@ def process_station_item(
                     df.insert(0, "time_utc", dt_series)
             df = df.dropna(subset=["time_utc"]).copy()
         else:
-            df = parse_meteoswiss_csv_to_df(content)
+            df = parse_meteoswiss_csv_to_df(content) # type: ignore
 
         df_y = filter_df_to_year(df, year)
         if len(df_y) < min_rows:

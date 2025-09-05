@@ -42,6 +42,26 @@ The model aims to estimate the following parameters:
 Each prediction will also include **secondary estimates** and **probability scores** for each parameter.
 
 ---
+## Results
+158 ground stations give measurements over daily changes (min/max temp, ...).
+148 are the districts in switzerland, for which a centroid is calculated and represents geographical representation as graph nodes.
+
+Under a radius of 5Km, there are 45 connections to centroids
+Under a radius of 20Km, there are 641 connections to centroids
+Under a radius of 50Km, there are 3341 connections to centroids
+Under a radius of 100Km, there are 10090 connections to centroids
+
+<p align="center">
+  <img src="figures/stations_to_district_centroids_5km.png" width="45%"/>
+  <img src="figures/stations_to_district_centroids_20km.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="figures/stations_to_district_centroids_50km.png" width="45%"/>
+  <img src="figures/stations_to_district_centroids_100km.png" width="45%"/>
+</p>
+
+
+---
 ## Versions
 - [ ] v.0.0.0: District level predictions of next hour weather conditions
 - [ ] v.0.1.0: District and cantonal prediction of next hour and next day
