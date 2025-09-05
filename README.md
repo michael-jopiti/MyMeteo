@@ -18,6 +18,7 @@ I also know I don’t have access to all the data they may use, nor the computat
 Everything in this repo is **built from scratch, out of my head**. If I ever integrate external methods or datasets, I’ll explicitly document it.
 
 ## Graph Representation
+![Graph representation of Switzerland at district level](figures/swiss_districts_graph.png)
 A key feature of this project is the **graph-based relationship among meteorological stations** based on their spatial coordinates.  
 
 The approach is to:  
