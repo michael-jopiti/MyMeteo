@@ -209,5 +209,7 @@ __marimo__/
 
 # My directories
 data/
+out/
+ascii.py
 *.csv
 *.json

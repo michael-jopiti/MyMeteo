@@ -840,7 +840,59 @@ def get_station_graph(
 # ---------------------------------------------------------------------
 # Save graph
 # ---------------------------------------------------------------------
-def save_graph(G, out_path: str | Path) -> Path:
+def _coerce_for_gexf(v):
+    """Make a value safe for GEXF/GraphML: allow only scalars; JSON-encode others."""
+    if isinstance(v, (str, int, float, bool)):
+        return v
+    # numpy scalars -> python
+    try:
+        import numpy as _np
+        if isinstance(v, _np.generic):
+            return v.item()
+    except Exception:
+        pass
+    # pandas Timestamp -> ISO string
+    try:
+        import pandas as _pd
+        if isinstance(v, _pd.Timestamp):
+            return v.isoformat()
+    except Exception:
+        pass
+    # common containers -> JSON
+    if isinstance(v, (list, tuple, set, dict)):
+        try:
+            return json.dumps(v, ensure_ascii=False)
+        except Exception:
+            return str(v)
+    # fallback (avoid None — will be dropped upstream)
+    return str(v)
+
+def _sanitize_attrs_for_io(G, *, compact: bool):
+    import networkx as nx
+    H = G.copy()
+    # optionally drop heavy fields
+    if compact:
+        for _, a in H.nodes(data=True):
+            a.pop("years", None)
+            # keep columns_union if you want; otherwise drop:
+            # a.pop("columns_union", None)
+
+    # drop Nones; coerce others
+    for _, a in H.nodes(data=True):
+        for k in list(a.keys()):
+            if a[k] is None:
+                del a[k]
+            else:
+                a[k] = _coerce_for_gexf(a[k])
+    for _, _, a in H.edges(data=True):
+        for k in list(a.keys()):
+            if a[k] is None:
+                del a[k]
+            else:
+                a[k] = _coerce_for_gexf(a[k])
+    return H
+
+def save_graph(G, out_path: str | Path, *, compact: bool = False) -> Path:
     try:
         import networkx as nx
     except Exception:
@@ -850,16 +902,18 @@ def save_graph(G, out_path: str | Path) -> Path:
     if not out_path.suffix:
         out_path = out_path.with_suffix(".gexf")
 
+    H = _sanitize_attrs_for_io(G, compact=compact)
+
     suf = out_path.suffix.lower()
     if suf == ".gexf":
-        nx.write_gexf(G, out_path)
+        nx.write_gexf(H, out_path)
     elif suf in (".graphml", ".xml"):
-        nx.write_graphml(G, out_path)
+        nx.write_graphml(H, out_path)
     elif suf in (".gpickle", ".pickle"):
-        nx.write_gpickle(G, out_path)
+        nx.write_gpickle(H, out_path)
     elif suf in (".edgelist", ".edges", ".txt"):
-        nx.write_edgelist(G, out_path, data=[("distance_km", float)])
+        nx.write_edgelist(H, out_path, data=[("distance_km", float)])
     else:
         out_path = out_path.with_suffix(".gexf")
-        nx.write_gexf(G, out_path)
+        nx.write_gexf(H, out_path)
     return out_path
